@@ -4,3 +4,14 @@
 **JavaScript framework for visual programming**
 
 ![rete logo](https://raw.githubusercontent.com/retejs/rete/assets/preview.svg)
+
+Getting started
+----
+
+Use [Rete Kit](https://retejs.org/docs/development/rete-kit) to quickly set up a Rete.js application. It lets you select a stack (React.js, Vue.js or Angular) and the set of features
+
+```bash
+npx rete-kit --next
+```
+
+Alternatively, you can follow the [complete guide](https://retejs.org/docs/getting-started/)
