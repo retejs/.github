@@ -11,7 +11,7 @@ Getting started
 Use [Rete Kit](https://retejs.org/docs/development/rete-kit) to quickly set up a Rete.js application. It lets you select a stack (React.js, Vue.js or Angular) and the set of features
 
 ```bash
-npx rete-kit --next
+npx rete-kit app --next
 ```
 
 Alternatively, you can follow the [complete guide](https://retejs.org/docs/getting-started/)
