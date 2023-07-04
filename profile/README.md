@@ -21,7 +21,7 @@ Our primary goal is to provide solutions that enable you to create flexible and 
 Getting started
 ----
 
-Use [Rete Kit](https://retejs.org/docs/development/rete-kit) to quickly set up a Rete.js application. It lets you select a stack (React.js, Vue.js or Angular) and the set of features
+Use [Rete Kit](https://retejs.org/docs/development/rete-kit) to quickly set up a Rete.js application. It lets you select a stack (React.js, Vue.js or Angular, Svelte) and the set of features
 
 ```bash
 npx rete-kit app --next
