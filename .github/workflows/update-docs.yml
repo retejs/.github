@@ -3,12 +3,32 @@ name: Update docs
 on:
   workflow_call:
     inputs:
-      package:
+      filename:
         required: true
         type: string
 
 jobs:
-  update-docs:
+  generate-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout rete.js.org repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm ci
+      - name: Generate docs
+        run: npm run doc
+      - uses: actions/upload-artifact@v3
+        with:
+          name: docs
+          path: docs
+
+  pull-docs:
     runs-on: ubuntu-latest
     steps:
       - name: Generate token
@@ -18,23 +38,26 @@ jobs:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.PRIVATE_KEY }}
 
-      - uses: actions/checkout@v3
+      - name: Checkout rete.js.org repository
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           token: ${{ steps.generate_token.outputs.token }}
           repository: retejs/retejs.org
-      - name: Use Node.js
-        uses: actions/setup-node@v3
 
+      - uses: actions/download-artifact@v3
+        with:
+          name: docs
+          path: package_docs
+        
       - name: Update .typedoc
-        run: |
-          echo "# TODO replace .typedoc file for ${{ inputs.package }}"
+        run: cp package_docs/typedoc.json ./content/en/docs/24.api/${{ inputs.filename }}.json
     
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ steps.generate_token.outputs.token }}
           author: rete-js[bot] <rete-js[bot]@users.noreply.github.com>
-          commit-message: Update API docs for ${{ inputs.package }}
+          commit-message: "docs(api): update API docs for ${{ inputs.package }}"
           title: Update API docs for ${{ inputs.package }}
           branch: api-docs-${{ inputs.package }}
