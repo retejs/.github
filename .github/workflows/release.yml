@@ -7,8 +7,16 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
+      - name: Generate token
+        id: generate_token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          token: ${{ steps.generate_token.outputs.token }}
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
@@ -52,7 +60,7 @@ jobs:
             @semantic-release/changelog@6
         env:
           RUNNER_DEBUG: 1
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     
       - name: Copy changelog
@@ -67,4 +75,10 @@ jobs:
           git config --local user.name rete-js[bot]
           git add .
           git commit -m "chore(release): ${{ steps.semantic.outputs.new_release_version }}"
-          git push
+    
+      - name: Push changes
+        if: steps.semantic.outputs.new_release_published == 'true'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ steps.generate_token.outputs.token }}
+          branch: ${{ github.ref }}
