@@ -51,7 +51,7 @@ jobs:
           path: package_docs
         
       - name: Update .typedoc
-        run: cp package_docs/typedoc.json ./content/en/docs/24.api/${{ inputs.filename }}.json
+        run: cp package_docs/typedoc.json ./content/en/docs/24.api/${{ inputs.filename }}.typedoc
     
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
