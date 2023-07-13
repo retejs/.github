@@ -30,6 +30,8 @@ jobs:
 
   pull-docs:
     runs-on: ubuntu-latest
+    needs: generate-docs
+    if: success('generate-docs')
     steps:
       - name: Generate token
         id: generate_token
