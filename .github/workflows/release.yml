@@ -32,13 +32,15 @@ jobs:
       - run: npm run lint --if-present
       - run: npm run build
       - run: npm i -g @semantic-release/changelog@6
-      - name: Create npmignore
-        uses: "finnp/create-file-action@master"
+      - name: Create/append npmignore
+        run: |
+          echo $FILE_DATA >> "$FILE_NAME"
         env:
           FILE_NAME: "${{ inputs.dist }}/.npmignore"
           FILE_DATA: "release.config.js"
       - name: Create release config
-        uses: "finnp/create-file-action@master"
+        run: |
+          echo $FILE_DATA > "$FILE_NAME"
         env:
           FILE_NAME: "${{ inputs.dist }}/release.config.js"
           FILE_DATA: |
