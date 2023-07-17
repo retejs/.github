@@ -77,10 +77,13 @@ jobs:
         run: cp -fr ${{ inputs.dist }}/CHANGELOG.md .
       
       - run: cat CHANGELOG.md
+      - name: Sync version
+        if: steps.semantic.outputs.new_release_published == 'true' && inputs.dist != '.'
+        run: |
+          npm version ${{ steps.semantic.outputs.new_release_version }} --no-git-tag-version --no-commit-hooks
       - name: Commit version
         if: steps.semantic.outputs.new_release_published == 'true'
         run: |
-          npm version ${{ steps.semantic.outputs.new_release_version }} --no-git-tag-version --no-commit-hooks
           git config --local user.email rete-js[bot]@users.noreply.github.com
           git config --local user.name rete-js[bot]
           git add .
