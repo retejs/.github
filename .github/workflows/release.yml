@@ -3,7 +3,7 @@ name: Release
 on:
   workflow_call:
     inputs:
-      username:
+      dist:
         description: 'Dist folder'
         default: './dist'
         required: false
