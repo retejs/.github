@@ -2,6 +2,12 @@ name: Release
 
 on:
   workflow_call:
+    inputs:
+      username:
+        description: 'Dist folder'
+        default: './dist'
+        required: false
+        type: string
 
 jobs:
   publish:
@@ -29,12 +35,12 @@ jobs:
       - name: Create npmignore
         uses: "finnp/create-file-action@master"
         env:
-          FILE_NAME: "dist/.npmignore"
+          FILE_NAME: "${{ inputs.dist }}/.npmignore"
           FILE_DATA: "release.config.js"
       - name: Create release config
         uses: "finnp/create-file-action@master"
         env:
-          FILE_NAME: "dist/release.config.js"
+          FILE_NAME: "${{ inputs.dist }}/release.config.js"
           FILE_DATA: |
             module.exports = {
               branches: ['main', { name: 'beta', channel: 'beta', prerelease: 'beta' }],
@@ -48,13 +54,14 @@ jobs:
             };
       
       - name: Copy changelog
-        run: cp -fr ./CHANGELOG.md ./dist
+        if: ${{ inputs.dist != '.' }}
+        run: cp -fr ./CHANGELOG.md ${{ inputs.dist }}
         
       - name: Semantic Release
         uses: cycjimmy/semantic-release-action@v3
         id: semantic
         with:
-          working_directory: ./dist
+          working_directory: ${{ inputs.dist }}
           semantic_version: 18
           extra_plugins: |
             @semantic-release/changelog@6
@@ -64,7 +71,8 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     
       - name: Copy changelog
-        run: cp -fr ./dist/CHANGELOG.md .
+        if: ${{ inputs.dist != '.' }}
+        run: cp -fr ${{ inputs.dist }}/CHANGELOG.md .
       
       - run: cat CHANGELOG.md
       - name: Commit version
