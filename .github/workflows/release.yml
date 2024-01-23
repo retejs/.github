@@ -31,12 +31,18 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '20'
       - run: npm ci
       - run: npm run test --if-present
       - run: npm run lint --if-present
       - run: npm run build
       - run: npm i -g @semantic-release/changelog@6
+      - name: Create/append npmrc
+        run: |
+          echo "provenance=true" >> "$FILE_NAME"
+          echo "access=public" >> "$FILE_NAME"
+        env:
+          FILE_NAME: "${{ inputs.dist }}/.npmrc" 
       - name: Create/append npmignore
         run: |
           echo $FILE_DATA >> "$FILE_NAME"
@@ -69,7 +75,7 @@ jobs:
         id: semantic
         with:
           working_directory: ${{ inputs.dist }}
-          semantic_version: 18
+          semantic_version: 23
           extra_plugins: |
             @semantic-release/changelog@6
         env:
