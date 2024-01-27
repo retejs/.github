@@ -94,7 +94,7 @@ jobs:
       if: steps.check.outputs.result == 'true'
       uses: peter-evans/create-pull-request@v5
       with:
-        token: ${{ needs.get-repositories.outputs.token }}
+        token: ${{ steps.generate_token.outputs.token }}
         author: rete-js[bot] <rete-js[bot]@users.noreply.github.com>
         commit-message: ${{ inputs.commit-message }}
         title: Update Rete CLI
