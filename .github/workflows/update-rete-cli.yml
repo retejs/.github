@@ -76,7 +76,7 @@ jobs:
         repository: retejs/${{ matrix.repository }}
     - uses: actions/setup-node@v4
       with:
-        node-version: 20
+        node-version: 18
     - name: Check if Rete CLI is needed to update
       id: check
       uses: actions/github-script@v7
