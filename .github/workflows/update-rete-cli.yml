@@ -107,5 +107,5 @@ jobs:
     - name: Add summary
       if: steps.check.outputs.result == 'true'
       run: |
-        echo "📰 https://github.com/retejs/rete/pull/685" >> $GITHUB_STEP_SUMMARY
+        echo "📰 ${{ steps.pr.outputs.pull-request-url }}" >> $GITHUB_STEP_SUMMARY
       
