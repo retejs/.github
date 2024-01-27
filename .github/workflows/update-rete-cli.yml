@@ -14,6 +14,7 @@ on:
 
 jobs:
   get-repositories:
+    name: Get repositories list
     runs-on: ubuntu-latest
     outputs:
       list: ${{ steps.repos.outputs.result }}
@@ -50,6 +51,7 @@ jobs:
         echo ${{steps.repos.outputs.result}}
 
   update-repositories:
+    name: Create PR for ${{ matrix.repository }} repository
     needs: get-repositories
     if: success('get-repositories')
     runs-on: ubuntu-latest
@@ -91,6 +93,7 @@ jobs:
       run: |
         npm i rete-cli@${{ inputs.version }}
     - name: Create Pull Request
+      id: pr
       if: steps.check.outputs.result == 'true'
       uses: peter-evans/create-pull-request@v5
       with:
@@ -101,3 +104,8 @@ jobs:
         branch: update-rete-cli
         body: "Bulk Rete CLI update"
         reviewers: Ni55aN
+    - name: Add summary
+      if: steps.check.outputs.result == 'true'
+      run: |
+        echo "📰 https://github.com/retejs/rete/pull/685" >> $GITHUB_STEP_SUMMARY
+      
