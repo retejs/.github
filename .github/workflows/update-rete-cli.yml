@@ -56,7 +56,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        repository: [rete-cli] # ${{fromJson(needs.get-repositories.outputs.list)}}
+        repository: [rete] # ${{fromJson(needs.get-repositories.outputs.list)}}
     steps:
     - name: Enter the repository
       run: echo ${{ matrix.repository }}
