@@ -10,11 +10,10 @@
 
 <!-- Mark the items that apply to this pull request -->
 
-- [ ] I have read and followed [the contribution guidelines](https://retejs.org/docs/contribution#contribution)
-- [ ] My code follows the project's coding conventions.
-- [ ] I have tested my changes locally.
-- [ ] I have updated documentation accordingly (if necessary).
-- [ ] I have added unit tests (if applicable).
+- [ ] I have read and followed [the contribution guidelines](https://retejs.org/docs/contribution#contribution).
+- [ ] I have [tested my changes](https://github.com/retejs/rete-qa) locally.
+- [ ] I have updated [documentation](https://github.com/retejs/retejs.org) accordingly (if necessary).
+- [ ] I have added unit and [E2E](https://github.com/retejs/rete-qa) tests (if applicable).
 
 ### Additional Notes
 
