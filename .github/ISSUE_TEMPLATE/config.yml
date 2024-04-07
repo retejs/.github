@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Question
+    url: https://discord.gg/cxSFkPZdsV
+    about: Ask a question
+  - name: Feature request
+    url:  https://github.com/retejs/rete/discussions/631
+    about: Request a new feature or enhancement
+  - name: Frameworks integration
+    url:  https://github.com/retejs/rete/discussions/635
+    about: Discuss integration possibilities with various frameworks
