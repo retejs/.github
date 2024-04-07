@@ -1,0 +1,71 @@
+name: Report a bug
+description: File a bug report
+labels: ["bug"]
+body:
+  - type: markdown
+    id: pre-info
+    attributes:
+      value: |
+        > ⚠️ Please make sure you are filing this issue in the correct repository. If you want to report a bug in free form, you can do so on [our Discord server](https://discord.gg/cxSFkPZdsV)
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is
+    validations:
+      required: true
+  - type: input
+    id: example
+    attributes:
+      label: Example to reproduce
+      description: A link to the example (e.g. Codesandbox, GitHub repository)
+      placeholder: https://...
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: How to reproduce 
+      description: Steps to reproduce the behavior
+      value: |
+        - 
+        - 
+        - 
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: A clear and concise description of what you expected to happen
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: Output of `npm list` or reference to example (e.g. Codesandbox)
+      placeholder: |
+        my-app@0.0.0 /my-app
+        ├── rete@2.0.3
+        ...
+    validations:
+      required: true
+  - type: input
+    id: platform
+    attributes:
+      label: Platform
+      description: What browsers or platform are you seeing the problem on?
+      placeholder: Chrome 123 (or Node.js 16 for server-side)
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Please copy and paste any relevant log output (this will be automatically formatted into code, so no need for backticks)
+      render: shell
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://retejs.org/docs/code-of-conduct)
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
