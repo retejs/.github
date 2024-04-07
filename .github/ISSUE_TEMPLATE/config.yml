@@ -9,3 +9,9 @@ contact_links:
   - name: 🖇️ Frameworks integration
     url:  https://github.com/retejs/rete/discussions/635
     about: Discuss integration possibilities with various frameworks
+  - name: 💖 Support us on Patreon
+    url: https://www.patreon.com/bePatron?u=7890937
+    about: Support us on Patreon to help the project grow
+  - name: 💰 Donate via OpenCollective
+    url: https://opencollective.com/rete/donate
+    about: Donate to our project via OpenCollective
