@@ -12,7 +12,26 @@ jobs:
     - uses: actions/checkout@v3
     - name: Use Node.js
       uses: actions/setup-node@v3
-    - run: npm ci
-    - run: npm run test --if-present
-    - run: npm run lint --if-present
-    - run: npm run build
+    - name: Install dependencies
+      run: npm ci
+    - name: Run tests
+      run: npm run test --if-present
+    - name: Run linter
+      run: npm run lint --if-present
+    - name: Build
+      run: npm run build
+    - name: SonarCloud Scan
+      uses: sonarsource/sonarcloud-github-action@v2.1.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      with:
+        args: >
+          -Dsonar.organization=retejs
+          -Dsonar.projectKey=retejs_${{ github.event.repository.name }}
+          -Dsonar.sources=src/
+          -Dsonar.test.exclusions=tests/**
+          -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+          -Dsonar.tests=tests/
+          -Dsonar.qualitygate.wait=true
+          ${{ github.event_name != 'pull_request' && format('-Dsonar.branch.name={0}', github.ref_name) || '' }}
