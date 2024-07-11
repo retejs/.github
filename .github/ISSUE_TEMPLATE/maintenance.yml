@@ -1,0 +1,29 @@
+name: ⚒️ Maintenance request
+description: Report maintenance issues or improvements for the project
+labels: ["maintenance"]
+body:
+  - type: markdown
+    id: pre-info
+    attributes:
+      value: |
+        > ⚠️ Please make sure you are filing this issue in the correct repository. If you want to request a feature, you can do so in https://github.com/retejs/rete/discussions/631
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Provide a detailed description of the maintenance task or issue. Be specific about what needs to be done and why it's important.
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Suggested Solution
+      description: Suggest a solution or approach to address this maintenance issue.
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://retejs.org/docs/code-of-conduct)
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
