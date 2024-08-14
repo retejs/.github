@@ -56,7 +56,7 @@ jobs:
           FILE_NAME: "${{ inputs.dist }}/release.config.js"
           FILE_DATA: |
             module.exports = {
-              branches: ['main', { name: 'beta', channel: 'beta', prerelease: 'beta' }],
+              branches: ['main', { name: 'beta', prerelease: true }],
               plugins: [
                 '@semantic-release/commit-analyzer',
                 '@semantic-release/release-notes-generator',
