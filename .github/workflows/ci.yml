@@ -20,7 +20,7 @@ jobs:
       id: rete-cli
       run: |
         RETE_V2=true
-        npm list --depth=0 | grep rete-cli@2 || RETE_V2=false
+        npm list --depth=0 | tail -n +2 | grep rete-cli@2 || RETE_V2=false
         echo "v2=$RETE_V2" >> $GITHUB_OUTPUT
 
     - name: Run linter
