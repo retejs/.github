@@ -16,8 +16,19 @@ jobs:
       run: npm ci
     - name: Run tests
       run: npm run test --if-present
+    - name: Is Rete CLI v2 used?
+      id: rete-cli
+      run: |
+        RETE_V2=true
+        npm list --depth=0 | grep rete-cli@2 || RETE_V2=false
+        echo "v2=$RETE_V2" >> $GITHUB_OUTPUT
+
     - name: Run linter
+      if: steps.rete-cli.outputs.v2 == 'false'
       run: npm run lint --if-present
+    - name: Run linter for v2
+      if: steps.rete-cli.outputs.v2 == 'true'
+      run: npm run lint --if-present -- --output sonar stdout 
     - name: Build
       run: npm run build
     - name: SonarCloud Scan
@@ -35,5 +46,6 @@ jobs:
           -Dsonar.tests=src/
           -Dsonar.test.inclusions=test/**,tests/**
           -Dsonar.exclusions=test/**,tests/**
-          -Dsonar.qualitygate.wait=true
+          -Dsonar.qualitygate.wait=true\
+          ${{ steps.rete-cli.outputs.v2 == 'true' && '-Dsonar.externalIssuesReportPaths=.rete-cli/sonar.json' || '' }}
           ${{ github.event_name != 'pull_request' && format('-Dsonar.branch.name={0}', github.ref_name) || '' }}
