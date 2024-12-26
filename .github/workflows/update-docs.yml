@@ -56,7 +56,7 @@ jobs:
           path: package_docs
         
       - name: Update .typedoc
-        run: cp package_docs/typedoc.json ./content/en/docs/24.api/${{ inputs.filename }}.typedoc
+        run: cp package_docs/typedoc.json ./src/content/en/docs/24.api/${{ inputs.filename }}.typedoc
       
       - name: Clear artifact docs
         run: rm -rf package_docs
