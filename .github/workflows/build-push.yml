@@ -29,17 +29,19 @@ jobs:
     - name: Build
       run: npm run build
 
-    - name: Pack root content into npm tarball
+    - name: Pack and extract root content into npm tarball
       if: ${{ inputs.pack_root }}
-      id: pack
-      run: echo "tarball-name=$(npm pack)" >> $GITHUB_OUTPUT
+      run: |
+        tarball_name=$(npm pack)
+        mkdir -p .tarball
+        tar -xvf $tarball_name -C .tarball
 
-    - name: Upload artifact with tarball
+    - name: Upload artifact with tarball content
       if: ${{ inputs.pack_root }}
       uses: actions/upload-artifact@v3
       with:
         name: tmp
-        path: ${{ steps.pack.outputs.tarball-name }}
+        path: .tarball/package
 
     - name: Upload dist artifact
       if: ${{ !inputs.pack_root }}
