@@ -3,6 +3,12 @@ run-name: Build and Push to dist/${{ github.ref_name }}
 
 on:
   workflow_call:
+    inputs:
+      pack_root:
+        description: 'Pack root content into npm tarball'
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   build:
@@ -23,10 +29,25 @@ jobs:
     - name: Build
       run: npm run build
 
-    - uses: actions/upload-artifact@v3
+    - name: Pack root content into npm tarball
+      if: ${{ inputs.pack_root }}
+      id: pack
+      run: echo "tarball-name=$(npm pack)" >> $GITHUB_OUTPUT
+
+    - name: Upload artifact with tarball
+      if: ${{ inputs.pack_root }}
+      uses: actions/upload-artifact@v3
+      with:
+        name: tmp
+        path: ${{ steps.pack.outputs.tarball-name }}
+
+    - name: Upload dist artifact
+      if: ${{ !inputs.pack_root }}
+      uses: actions/upload-artifact@v3
       with:
         name: tmp
         path: dist
+
   push:
     needs: [build]
     runs-on: ubuntu-latest
