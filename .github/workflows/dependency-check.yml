@@ -32,7 +32,7 @@ jobs:
           script: |
             process.chdir('./.dependency-check/tmp')
             const semver = require('semver');
-            const pkg = require('../package.json');
+            const pkg = require('../../package.json');
             const dependencies = [ ...Object.entries(pkg.dependencies || {}), ...Object.entries(pkg.devDependencies || {}), ...Object.entries(pkg.peerDependencies || {}) ];
             const invalidDependencies = dependencies.filter(([, version]) => !isValid(version))
       
