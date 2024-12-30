@@ -17,9 +17,9 @@ jobs:
 
       - name: Install semver
         run: |
-          mkdir -p ./.dependency-check
-          cd ./.dependency-check
-          npm init -y tmp-dependency-check
+          mkdir -p ./.dependency-check/tmp
+          cd ./.dependency-check/tmp
+          npm init -y
           npm install semver@7
 
       - name: 'Dependency Review'
@@ -30,7 +30,7 @@ jobs:
         if: always()
         with:
           script: |
-            process.chdir('./.dependency-check')
+            process.chdir('./.dependency-check/tmp')
             const semver = require('semver');
             const pkg = require('../package.json');
             const dependencies = [ ...Object.entries(pkg.dependencies || {}), ...Object.entries(pkg.devDependencies || {}), ...Object.entries(pkg.peerDependencies || {}) ];
