@@ -28,9 +28,9 @@ jobs:
       - name: Check dependencies version format
         uses: actions/github-script@v7
         if: always()
-        working-directory: ./.dependency-check
         with:
           script: |
+            process.chdir('./.dependency-check')
             const semver = require('semver');
             const pkg = require('../package.json');
             const dependencies = [ ...Object.entries(pkg.dependencies || {}), ...Object.entries(pkg.devDependencies || {}), ...Object.entries(pkg.peerDependencies || {}) ];
