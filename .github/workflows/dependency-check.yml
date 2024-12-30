@@ -19,7 +19,7 @@ jobs:
         run: |
           mkdir -p ./.dependency-check
           cd ./.dependency-check
-          npm init -y
+          npm init -y tmp-dependency-check
           npm install semver@7
 
       - name: 'Dependency Review'
