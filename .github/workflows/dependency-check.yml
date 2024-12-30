@@ -16,7 +16,11 @@ jobs:
           node-version: 20
 
       - name: Install semver
-        run: npm install -g semver@7
+        run: |
+          mkdir -r ./.dependency-check
+          cd ./.dependency-check
+          npm init -y
+          npm install semver@7
 
       - name: 'Dependency Review'
         uses: actions/dependency-review-action@v4
@@ -24,10 +28,11 @@ jobs:
       - name: Check dependencies version format
         uses: actions/github-script@v7
         if: always()
+        working-directory: ./.dependency-check
         with:
           script: |
             const semver = require('semver');
-            const pkg = require('./package.json');
+            const pkg = require('../package.json');
             const dependencies = [ ...Object.entries(pkg.dependencies || {}), ...Object.entries(pkg.devDependencies || {}), ...Object.entries(pkg.peerDependencies || {}) ];
             const invalidDependencies = dependencies.filter(([, version]) => !isValid(version))
       
