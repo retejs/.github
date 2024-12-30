@@ -19,14 +19,38 @@ jobs:
         uses: actions/dependency-review-action@v4
 
       - name: Check dependencies version format
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         if: always()
         with:
           script: |
             const pkg = require('./package.json');
-            const dependencies = {...pkg.dependencies, ...pkg.devDependencies};
-            const invalidDeps = Object.entries(dependencies).filter(([name, version]) => !/^\d+\.\d+\.\d+$/.test(version));
-            if (invalidDeps.length > 0) {
-              const invalidDepsList = invalidDeps.map(([name, version]) => `${name}: ${version}`).join(', ');
+            const dependencies = [ ...Object.entries(pkg.dependencies || {}), ...Object.entries(pkg.devDependencies || {}), ...Object.entries(pkg.peerDependencies || {}) ];
+            const invalidDependencies = dependencies.filter(([, version]) => !isValid(version))
+      
+            if (invalidDependencies.length > 0) {
+              const invalidDepsList = invalidDependencies.map(([name, version]) => `${name}: ${version}`).join(', ');
               core.setFailed(`Invalid version format for dependencies: ${invalidDepsList}. Must be numerical (e.g., 0.1.2)`);
+            }
+
+            function isValid(version) {
+              const ranges = getRanges(version)
+              const stableRanges = ranges.map(isStable)
+
+              return stableRanges.every(Boolean)
+            }
+
+            function getRanges(version) {
+              const parts = version.split('||')
+              return parts.flatMap(part => {
+                try {
+                  return semver.toComparators(part, { loose: true })
+                } catch (e) {
+                  console.warn(`Failed to parse version: ${part}`)
+                  return [null]
+                }
+              }).map(range => range && range[0].replace(/^[\^~><=]+/, ''))
+            }
+
+            function isStable(v) {
+              return semver.satisfies(semver.coerce(v), v)
             }
