@@ -1,0 +1,32 @@
+name: Dependency Check
+
+on:
+  workflow_call:
+
+jobs:
+  check-dependencies:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: 'Dependency Review'
+        uses: actions/dependency-review-action@v4
+
+      - name: Check dependencies version format
+        uses: actions/github-script@v6
+        if: always()
+        with:
+          script: |
+            const pkg = require('./package.json');
+            const dependencies = {...pkg.dependencies, ...pkg.devDependencies};
+            const invalidDeps = Object.entries(dependencies).filter(([name, version]) => !/^\d+\.\d+\.\d+$/.test(version));
+            if (invalidDeps.length > 0) {
+              const invalidDepsList = invalidDeps.map(([name, version]) => `${name}: ${version}`).join(', ');
+              core.setFailed(`Invalid version format for dependencies: ${invalidDepsList}. Must be numerical (e.g., 0.1.2)`);
+            }
