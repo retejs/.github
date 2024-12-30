@@ -17,7 +17,7 @@ jobs:
 
       - name: Install semver
         run: |
-          mkdir -r ./.dependency-check
+          mkdir -p ./.dependency-check
           cd ./.dependency-check
           npm init -y
           npm install semver@7
