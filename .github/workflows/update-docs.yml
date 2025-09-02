@@ -26,7 +26,7 @@ jobs:
         run: npm ci
       - name: Generate docs
         run: npm run doc
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: docs
           path: docs
@@ -50,7 +50,7 @@ jobs:
           token: ${{ steps.generate_token.outputs.token }}
           repository: retejs/retejs.org
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: docs
           path: package_docs

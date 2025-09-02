@@ -38,14 +38,14 @@ jobs:
 
     - name: Upload artifact with tarball content
       if: ${{ inputs.pack_root }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: tmp
         path: .tarball/package
 
     - name: Upload dist artifact
       if: ${{ !inputs.pack_root }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: tmp
         path: dist
@@ -67,7 +67,7 @@ jobs:
         git rm -rf .
 
     - name: Download artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: tmp
         path: .
